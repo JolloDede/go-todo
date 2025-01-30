@@ -1,6 +1,5 @@
 /*
 Copyright © 2025 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
@@ -8,6 +7,7 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 // addCmd represents the add command
@@ -20,10 +20,14 @@ and usage of using your command. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
+
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("add called")
 	},
 }
+
+var title string
+var author string
 
 func init() {
 	rootCmd.AddCommand(addCmd)
@@ -37,4 +41,10 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// addCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+
+	// addCmd.PersistentFlags().StringVarP(&title, "title", "Todo title", "Title of the newly created todo")
+	// viper.BindPFlag("title", addCmd.PersistentFlags().Lookup("title"))
+
+	rootCmd.PersistentFlags().StringVar(&author, "author", "YOUR NAME", "Author name for copyright attribution")
+	viper.BindPFlag("author", rootCmd.PersistentFlags().Lookup("author"))
 }
