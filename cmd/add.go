@@ -6,28 +6,24 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/JolloDede/todo_go/src"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 // addCmd represents the add command
 var addCmd = &cobra.Command{
-	Use:   "add",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Use:   "add [title]",
+	Short: "Add a todo to the list with the [title]",
+	Long: `Add a todo to the list of todos.
+	The title is the new identifier and a Id thats incremental gets added.`,
 
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("add called")
+		// TODO: write to storage
+		title := args[0]
+		src.AddTodo(title)
+		fmt.Println("A new Todo has been created.")
 	},
 }
-
-var title string
-var author string
 
 func init() {
 	rootCmd.AddCommand(addCmd)
@@ -44,7 +40,4 @@ func init() {
 
 	// addCmd.PersistentFlags().StringVarP(&title, "title", "Todo title", "Title of the newly created todo")
 	// viper.BindPFlag("title", addCmd.PersistentFlags().Lookup("title"))
-
-	rootCmd.PersistentFlags().StringVar(&author, "author", "YOUR NAME", "Author name for copyright attribution")
-	viper.BindPFlag("author", rootCmd.PersistentFlags().Lookup("author"))
 }
