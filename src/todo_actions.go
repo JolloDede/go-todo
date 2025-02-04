@@ -1,23 +1,19 @@
 package src
 
-import (
-	"fmt"
-)
-
 type Todo struct {
 	id    int16
 	title string
 }
 
 func AddTodo(title string) {
-	todos, err := loadTodosFromFile()
+	// todos, err := loadTodosFromFile()
 
-	if err != nil {
-		fmt.Println("Cant get Todos from file")
-		return
-	}
+	// if err != nil {
+	// 	fmt.Println("Cant get Todos from file")
+	// 	return
+	// }
 
-	fmt.Println(todos)
+	// fmt.Println(todos)
 
 	writeTodosToFile([]string{title})
 }
