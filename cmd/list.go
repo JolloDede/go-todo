@@ -5,7 +5,11 @@ package cmd
 
 import (
 	"fmt"
+	"os"
+	"strconv"
+	"text/tabwriter"
 
+	"github.com/JolloDede/todo_go/src"
 	"github.com/spf13/cobra"
 )
 
@@ -20,8 +24,15 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		// TODO: read from storage
-		fmt.Println("list called")
+		todos := src.GetTodos()
+		w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', 0)
+
+		fmt.Fprintln(w, "ID\tTitle")
+		for i := 0; i < len(todos); i++ {
+			fmt.Fprintln(w, strconv.Itoa(int(todos[i].Id))+"\t"+todos[i].Title)
+		}
+
+		w.Flush()
 	},
 }
 

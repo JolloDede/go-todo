@@ -27,12 +27,12 @@ func loadTodosFromFile() ([]Todo, error) {
 			fmt.Println("Error reading CSV data:", err)
 			break
 		}
-		fmt.Println(record)
+
 		todoId, err := strconv.Atoi(record[0])
 		if err != nil {
 			break
 		}
-		data = append(data, Todo{id: int16(todoId), title: record[1]})
+		data = append(data, Todo{Id: int16(todoId), Title: record[1]})
 	}
 	return data, nil
 }
@@ -47,7 +47,7 @@ func getLastId() int16 {
 	if len(todos) == 0 {
 		return 1
 	} else {
-		return todos[len(todos)-1].id + 1
+		return todos[len(todos)-1].Id + 1
 	}
 }
 
