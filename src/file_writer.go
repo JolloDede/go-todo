@@ -32,8 +32,15 @@ func loadTodosFromFile() ([]Todo, error) {
 		if err != nil {
 			break
 		}
-		data = append(data, Todo{Id: int16(todoId), Title: record[1]})
+
+		todoCompletion, err := strconv.ParseBool(record[2])
+		if err != nil {
+			break
+		}
+
+		data = append(data, Todo{Id: int16(todoId), Title: record[1], Done: todoCompletion})
 	}
+
 	return data, nil
 }
 
@@ -64,10 +71,29 @@ func writeTodosToFile(todos []string) error {
 	newId := getLastId()
 
 	for i := 0; i < len(todos); i++ {
-		w.Write([]string{strconv.Itoa(int(newId)), todos[i]})
+		w.Write([]string{strconv.Itoa(int(newId)), todos[i], strconv.FormatBool(false)})
 		newId++
 	}
 
 	w.Flush()
+	return nil
+}
+
+func updateTodoInFile(id int16) error {
+	f, err := os.OpenFile("test.csv", os.O_RDWR, 0644)
+
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	r := csv.NewReader(f)
+
+	// r.ReadAll()
+
+	w := csv.NewWriter(f)
+
+	// w.WriteAll()
+
 	return nil
 }

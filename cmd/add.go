@@ -12,8 +12,8 @@ import (
 
 // addCmd represents the add command
 var addCmd = &cobra.Command{
-	Use:   "add [title]",
-	Short: "Add a todo to the list with the [title]",
+	Use:   "add <title>",
+	Short: "Add a todo to the list with the <title>",
 	Long: `Add a todo to the list of todos.
 	The title is the new identifier and a Id thats incremental gets added.`,
 

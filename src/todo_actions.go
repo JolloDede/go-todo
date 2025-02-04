@@ -3,6 +3,7 @@ package src
 type Todo struct {
 	Id    int16
 	Title string
+	Done  bool
 }
 
 func AddTodo(title string) {
@@ -17,4 +18,8 @@ func GetTodos() []Todo {
 	}
 
 	return todos
+}
+
+func CompleteTodo(id int16) {
+	// updateTodoInFile(int16(id))
 }

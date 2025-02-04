@@ -16,20 +16,15 @@ import (
 // listCmd represents the list command
 var listCmd = &cobra.Command{
 	Use:   "list",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Returns a tabbed list of your Todos",
+	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		todos := src.GetTodos()
-		w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', 0)
+		w := tabwriter.NewWriter(os.Stdout, 0, 0, 4, ' ', 0)
 
-		fmt.Fprintln(w, "ID\tTitle")
+		fmt.Fprintln(w, "ID\tTitle\tDone")
 		for i := 0; i < len(todos); i++ {
-			fmt.Fprintln(w, strconv.Itoa(int(todos[i].Id))+"\t"+todos[i].Title)
+			fmt.Fprintln(w, strconv.Itoa(int(todos[i].Id))+"\t"+todos[i].Title+"\t"+strconv.FormatBool(todos[i].Done))
 		}
 
 		w.Flush()
