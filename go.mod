@@ -1,4 +1,4 @@
-module github.com/JolloDede/Go_Todo
+module github.com/JolloDede/go-todo
 
 go 1.22.3
 
