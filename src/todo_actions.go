@@ -21,5 +21,5 @@ func GetTodos() []Todo {
 }
 
 func CompleteTodo(id int16) {
-	// updateTodoInFile(int16(id))
+	updateTodoInFile(int16(id))
 }

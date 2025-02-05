@@ -1,11 +1,13 @@
 package src
 
 import (
+	"bufio"
 	"encoding/csv"
 	"fmt"
 	"io"
 	"os"
 	"strconv"
+	"strings"
 )
 
 func loadTodosFromFile() ([]Todo, error) {
@@ -87,13 +89,34 @@ func updateTodoInFile(id int16) error {
 	}
 	defer f.Close()
 
-	r := csv.NewReader(f)
+	var nfc []string
 
-	// r.ReadAll()
+	scanner := bufio.NewScanner(f)
+
+	for scanner.Scan() {
+		line := strings.Split(scanner.Text(), ",")
+
+		if line[0] == strconv.FormatInt(int64(id), 2) {
+			state := line[len(line)-1]
+			fmt.Println(line)
+			if state == "true" {
+				line[len(line)-1] = "false"
+			} else {
+				line[len(line)-1] = "true"
+			}
+
+			break
+		}
+		nfc = append(nfc, strings.Join(line, ","))
+	}
+
+	fmt.Println(nfc)
 
 	w := csv.NewWriter(f)
 
-	// w.WriteAll()
+	w.Write(nfc)
+
+	w.Flush()
 
 	return nil
 }
