@@ -17,12 +17,12 @@ var completeCmd = &cobra.Command{
 	Short: "A marks a Todo as done.",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		taskid, err := strconv.ParseInt(args[0], 0, 16)
+		todoid, err := strconv.ParseInt(args[0], 0, 16)
 		if err != nil {
 			fmt.Println("There was a error converting the id to a number")
 			return
 		}
-		src.CompleteTodo(int16(taskid))
+		src.CompleteTodo(int16(todoid))
 		fmt.Println("complete called")
 	},
 }

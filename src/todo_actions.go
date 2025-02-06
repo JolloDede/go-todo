@@ -7,7 +7,7 @@ type Todo struct {
 }
 
 func AddTodo(title string) {
-	writeTodosToFile([]string{title})
+	AddTodoToFile(title)
 }
 
 func GetTodos() []Todo {
@@ -22,4 +22,8 @@ func GetTodos() []Todo {
 
 func CompleteTodo(id int16) {
 	updateTodoInFile(int16(id))
+}
+
+func DeleteTodo(id int16) {
+	deleteTodoInFile(id)
 }

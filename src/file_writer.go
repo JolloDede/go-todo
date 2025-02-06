@@ -125,3 +125,37 @@ func updateTodoInFile(id int16) error {
 
 	return nil
 }
+
+func deleteTodoInFile(id int16) error {
+	f, err := os.OpenFile("test.csv", os.O_RDWR, 6440)
+
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	var nfc [][]string
+
+	scanner := bufio.NewScanner(f)
+
+	for scanner.Scan() {
+		line := strings.Split(scanner.Text(), ",")
+
+		if line[0] != strconv.FormatInt(int64(id), 2) {
+			nfc = append(nfc, line)
+		}
+	}
+
+	// TODO handle the errors
+	// clear the file
+	f.Truncate(0)
+	f.Seek(0, 0)
+
+	w := csv.NewWriter(f)
+
+	writeTodosToFile(w, nfc)
+
+	w.Flush()
+
+	return nil
+}
