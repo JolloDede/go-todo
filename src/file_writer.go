@@ -82,14 +82,14 @@ func writeTodosToFile(todos []string) error {
 }
 
 func updateTodoInFile(id int16) error {
-	f, err := os.OpenFile("test.csv", os.O_RDWR, 0644)
+	f, err := os.OpenFile("test.csv", os.O_RDWR|os.O_CREATE, 0755)
 
 	if err != nil {
 		return err
 	}
 	defer f.Close()
 
-	var nfc []string
+	var nfc [][]string
 
 	scanner := bufio.NewScanner(f)
 
@@ -104,17 +104,21 @@ func updateTodoInFile(id int16) error {
 			} else {
 				line[len(line)-1] = "true"
 			}
-
-			break
 		}
-		nfc = append(nfc, strings.Join(line, ","))
+
+		nfc = append(nfc, line)
 	}
 
-	fmt.Println(nfc)
+	// TODO handle the errors
+	// clear the file
+	f.Truncate(0)
+	f.Seek(0, 0)
 
 	w := csv.NewWriter(f)
 
-	w.Write(nfc)
+	for i := 0; i < len(nfc); i++ {
+		w.Write([]string{nfc[i][0], nfc[i][1], nfc[i][2]})
+	}
 
 	w.Flush()
 
