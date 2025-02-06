@@ -60,7 +60,7 @@ func getLastId() int16 {
 	}
 }
 
-func writeTodosToFile(todos []string) error {
+func AddTodoToFile(todo string) error {
 	f, err := os.OpenFile("test.csv", os.O_APPEND|os.O_CREATE|os.O_RDWR, 0644)
 
 	if err != nil {
@@ -72,17 +72,20 @@ func writeTodosToFile(todos []string) error {
 
 	newId := getLastId()
 
-	for i := 0; i < len(todos); i++ {
-		w.Write([]string{strconv.Itoa(int(newId)), todos[i], strconv.FormatBool(false)})
-		newId++
-	}
+	writeTodosToFile(w, [][]string{[]string{strconv.Itoa(int(newId)), todo, strconv.FormatBool(false)}})
 
 	w.Flush()
 	return nil
 }
 
+func writeTodosToFile(w *csv.Writer, tl [][]string) {
+	for i := 0; i < len(tl); i++ {
+		w.Write([]string{tl[i][0], tl[i][1], tl[i][2]})
+	}
+}
+
 func updateTodoInFile(id int16) error {
-	f, err := os.OpenFile("test.csv", os.O_RDWR|os.O_CREATE, 0755)
+	f, err := os.OpenFile("test.csv", os.O_RDWR, 6440)
 
 	if err != nil {
 		return err
@@ -98,7 +101,7 @@ func updateTodoInFile(id int16) error {
 
 		if line[0] == strconv.FormatInt(int64(id), 2) {
 			state := line[len(line)-1]
-			fmt.Println(line)
+
 			if state == "true" {
 				line[len(line)-1] = "false"
 			} else {
@@ -116,9 +119,7 @@ func updateTodoInFile(id int16) error {
 
 	w := csv.NewWriter(f)
 
-	for i := 0; i < len(nfc); i++ {
-		w.Write([]string{nfc[i][0], nfc[i][1], nfc[i][2]})
-	}
+	writeTodosToFile(w, nfc)
 
 	w.Flush()
 

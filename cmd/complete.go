@@ -22,7 +22,6 @@ var completeCmd = &cobra.Command{
 			fmt.Println("There was a error converting the id to a number")
 			return
 		}
-		// TODO: call the complete function
 		src.CompleteTodo(int16(taskid))
 		fmt.Println("complete called")
 	},
